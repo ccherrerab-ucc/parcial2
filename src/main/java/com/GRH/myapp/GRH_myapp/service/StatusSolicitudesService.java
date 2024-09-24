@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.GRH.myapp.GRH_myapp.service;
 
 import com.GRH.myapp.GRH_myapp.model.StatusSolicitudes;
@@ -20,4 +21,18 @@ public class StatusSolicitudesService {
     public StatusSolicitudes save(StatusSolicitudes status) {
         return statusSolicitudesRepository.save(status);
     }
+=======
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.GRH.myapp.GRH_myapp.service;
+
+/**
+ *
+ * @author cacri
+ */
+public class StatusSolicitudesService {
+    
+>>>>>>> main
 }
