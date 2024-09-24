@@ -38,7 +38,11 @@ public class SeguimientosSolicitudes implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+<<<<<<< HEAD
+    @Column(name = "id_guid")
+=======
     @Column(name = "idGuid")
+>>>>>>> main
     private Integer idGuid;
     @Basic(optional = false)
     @Column(name = "id_request")
