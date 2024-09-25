@@ -27,12 +27,12 @@ import java.util.Date;
 @Entity
 @Table(name = "seguimientos_solicitudes")
 @NamedQueries({
-    @NamedQuery(name = "SeguimientosSolicitudes.findAll", query = "SELECT s FROM SeguimientosSolicitudes s"),
-    @NamedQuery(name = "SeguimientosSolicitudes.findByIdGuid", query = "SELECT s FROM SeguimientosSolicitudes s WHERE s.idGuid = :idGuid"),
-    @NamedQuery(name = "SeguimientosSolicitudes.findByIdRequest", query = "SELECT s FROM SeguimientosSolicitudes s WHERE s.idRequest = :idRequest"),
-    @NamedQuery(name = "SeguimientosSolicitudes.findByVigente", query = "SELECT s FROM SeguimientosSolicitudes s WHERE s.vigente = :vigente"),
-    @NamedQuery(name = "SeguimientosSolicitudes.findByCreationDate", query = "SELECT s FROM SeguimientosSolicitudes s WHERE s.creationDate = :creationDate")})
-public class SeguimientosSolicitudes implements Serializable {
+    @NamedQuery(name = "SeguimientosSolicitudes.findAll", query = "SELECT s FROM SeguimientoSolicitudes s"),
+    @NamedQuery(name = "SeguimientosSolicitudes.findByIdGuid", query = "SELECT s FROM SeguimientoSolicitudes s WHERE s.idGuid = :idGuid"),
+    @NamedQuery(name = "SeguimientosSolicitudes.findByIdRequest", query = "SELECT s FROM SeguimientoSolicitudes s WHERE s.idRequest = :idRequest"),
+    @NamedQuery(name = "SeguimientosSolicitudes.findByVigente", query = "SELECT s FROM SeguimientoSolicitudes s WHERE s.vigente = :vigente"),
+    @NamedQuery(name = "SeguimientosSolicitudes.findByCreationDate", query = "SELECT s FROM SeguimientoSolicitudes s WHERE s.creationDate = :creationDate")})
+public class SeguimientoSolicitudes implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,14 +53,14 @@ public class SeguimientosSolicitudes implements Serializable {
     @ManyToOne(optional = false)
     private StatusSolicitudes statusCode;
 
-    public SeguimientosSolicitudes() {
+    public SeguimientoSolicitudes() {
     }
 
-    public SeguimientosSolicitudes(Integer idGuid) {
+    public SeguimientoSolicitudes(Integer idGuid) {
         this.idGuid = idGuid;
     }
 
-    public SeguimientosSolicitudes(Integer idGuid, int idRequest, Boolean vigente) {
+    public SeguimientoSolicitudes(Integer idGuid, int idRequest, Boolean vigente) {
         this.idGuid = idGuid;
         this.idRequest = idRequest;
         this.vigente = vigente;
@@ -116,10 +116,10 @@ public class SeguimientosSolicitudes implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SeguimientosSolicitudes)) {
+        if (!(object instanceof SeguimientoSolicitudes)) {
             return false;
         }
-        SeguimientosSolicitudes other = (SeguimientosSolicitudes) object;
+        SeguimientoSolicitudes other = (SeguimientoSolicitudes) object;
         if ((this.idGuid == null && other.idGuid != null) || (this.idGuid != null && !this.idGuid.equals(other.idGuid))) {
             return false;
         }

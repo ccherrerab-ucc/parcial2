@@ -37,7 +37,7 @@ public class StatusSolicitudes implements Serializable {
     @Column(name = "description")
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusCode")
-    private Collection<SeguimientosSolicitudes> seguimientosSolicitudesCollection;
+    private Collection<SeguimientoSolicitudes> seguimientoSolicitudesCollection;
 
     public StatusSolicitudes() {
     }
@@ -67,12 +67,12 @@ public class StatusSolicitudes implements Serializable {
         this.description = description;
     }
 
-    public Collection<SeguimientosSolicitudes> getSeguimientosSolicitudesCollection() {
-        return seguimientosSolicitudesCollection;
+    public Collection<SeguimientoSolicitudes> getSeguimientosSolicitudesCollection() {
+        return seguimientoSolicitudesCollection;
     }
 
-    public void setSeguimientosSolicitudesCollection(Collection<SeguimientosSolicitudes> seguimientosSolicitudesCollection) {
-        this.seguimientosSolicitudesCollection = seguimientosSolicitudesCollection;
+    public void setSeguimientosSolicitudesCollection(Collection<SeguimientoSolicitudes> seguimientoSolicitudesCollection) {
+        this.seguimientoSolicitudesCollection = seguimientoSolicitudesCollection;
     }
 
     @Override
