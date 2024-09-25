@@ -1,5 +1,5 @@
 package com.GRH.myapp.GRH_myapp.service;
-
+import com.GRH.myapp.GRH_myapp.repository.SeguimientoSolicitudRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
