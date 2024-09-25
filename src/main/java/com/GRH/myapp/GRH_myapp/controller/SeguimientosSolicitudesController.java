@@ -23,6 +23,16 @@ public class SeguimientosSolicitudesController {
     public SeguimientosSolicitudes create(@RequestBody SeguimientosSolicitudes solicitud) {
         return seguimientosSolicitudesService.save(solicitud);
     }
+    @PutMapping("/{id}")
+    public SeguimientosSolicitudes update(@PathVariable Integer id, @RequestBody SeguimientosSolicitudes solicitud) {
+        try {
+            return seguimientosSolicitudesService.updateRequest(id, solicitud);
+        } catch (Exception e) {
+            // Manejo de la excepción
+            System.out.println("Error al actualizar la solicitud: " + e.getMessage());
+            return null;
+        }
+    }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {

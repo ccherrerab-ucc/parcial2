@@ -41,7 +41,7 @@ public class SeguimientosSolicitudes implements Serializable {
     @Column(name = "id_guid")
     private Integer idGuid;
     @Basic(optional = false)
-    @Column(name = "id_request")
+    @Column(name = "id_type_request")
     private int idRequest;
     @Basic(optional = false)
     @Column(name = "vigente")
@@ -128,7 +128,12 @@ public class SeguimientosSolicitudes implements Serializable {
 
     @Override
     public String toString() {
-        return "com.GRH.myapp.GRH_myapp.model.SeguimientosSolicitudes[ idGuid=" + idGuid + " ]";
+        return "SeguimientosSolicitudes{" +
+                "idGuid=" + idGuid +
+                ", idRequest=" + idRequest +
+                ", vigente=" + vigente +
+                ", creationDate=" + creationDate +
+                ", statusCode=" + (statusCode != null ? statusCode.getStatusCode() : "N/A") + // Asegúrate de que getStatusCode() devuelva el valor adecuado
+                '}';
     }
-    
 }
