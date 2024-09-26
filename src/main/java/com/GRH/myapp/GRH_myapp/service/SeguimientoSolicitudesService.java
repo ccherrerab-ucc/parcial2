@@ -1,12 +1,12 @@
 package com.GRH.myapp.GRH_myapp.service;
 
-
 import com.GRH.myapp.GRH_myapp.model.SeguimientoSolicitudes;
 import com.GRH.myapp.GRH_myapp.repository.SeguimientoSolicitudesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,17 +32,24 @@ public class SeguimientoSolicitudesService {
 
         // Actualizar el estado y aplicar la lógica de negocio
         seguimiento.getStatusCode().setStatusCode(statusCode);
-        ;
 
-        if (statusCode == 0) { // Estado RECHAZADO
+        if (statusCode == 3) { // Estado RECHAZADO
             seguimiento.setVigente(false);
-        } else if (statusCode == 1) { // Estado ACEPTADO o EN_PROCESO
+        } else { // Estado ACEPTADO o EN_PROCESO
             seguimiento.setVigente(true);
         }
 
         // Actualizar la fecha de seguimiento
         seguimiento.setCreationDate(new Date());
 
+        if (statusCode % 2 == 0) {
+            seguimiento.setVigente(false);
+        }
+
         return seguimientoSolicitudesRepository.save(seguimiento);
+    }
+
+    public List<SeguimientoSolicitudes> getAll() {
+        return seguimientoSolicitudesRepository.findAll();
     }
 }

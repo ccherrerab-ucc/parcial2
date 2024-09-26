@@ -7,26 +7,32 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/seguimiento-solicitudes")
+@RequestMapping("/api/seguimiento")
 public class SeguimientosSolicitudesController {
 
     @Autowired
     private SeguimientoSolicitudesService seguimientoSolicitudesService;
 
-    // Endpoint para actualizar el estado de la solicitud
-    @PutMapping("/update-status/{idGuid}")
-    public ResponseEntity<?> updateStatus(@PathVariable Integer idGuid, @RequestParam Integer statusCode) {
+    // Endpoint para obtener todas las solicitudes de seguimiento
+    @GetMapping
+    public ResponseEntity<List<SeguimientoSolicitudes>> getAll() {
+        List<SeguimientoSolicitudes> solicitudes = seguimientoSolicitudesService.getAll();
+        return new ResponseEntity<>(solicitudes, HttpStatus.OK);
+    }
+
+    // Endpoint para actualizar el estado de una solicitud
+    @PutMapping("/{idGuid}/status")
+    public ResponseEntity<SeguimientoSolicitudes> updateStatus(
+            @PathVariable Integer idGuid,
+            @RequestParam Integer statusCode) {
         try {
-            // Llamar al servicio para actualizar el estado
-            SeguimientoSolicitudes seguimientoActualizado = seguimientoSolicitudesService.updateStatus(idGuid, statusCode);
-            return new ResponseEntity<>(seguimientoActualizado, HttpStatus.OK);
+            SeguimientoSolicitudes updatedSeguimiento = seguimientoSolicitudesService.updateStatus(idGuid, statusCode);
+            return new ResponseEntity<>(updatedSeguimiento, HttpStatus.OK);
         } catch (IllegalStateException e) {
-            // En caso de error, devolver una respuesta con el estado HTTP correspondiente
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            // Para cualquier otro error inesperado
-            return new ResponseEntity<>("Error interno del servidor", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 }

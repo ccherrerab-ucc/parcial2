@@ -1,4 +1,4 @@
-package com.GRH.myapp.GRH_myapp;
+/*package com.GRH.myapp.GRH_myapp;
 
 import java.util.Date;
 
@@ -48,4 +48,4 @@ public class SeguimientoDTO {
     public void setCodigoSeguimientoSolicitud(String codigoSeguimientoSolicitud) {
         this.codigoSeguimientoSolicitud = codigoSeguimientoSolicitud;
     }
-}
+}*/
