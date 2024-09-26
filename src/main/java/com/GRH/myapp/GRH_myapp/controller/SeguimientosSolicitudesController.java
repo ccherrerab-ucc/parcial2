@@ -35,4 +35,11 @@ public class SeguimientosSolicitudesController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
+
+    // Endpoint para crear una nueva solicitud de seguimiento
+    @PostMapping
+    public ResponseEntity<SeguimientoSolicitudes> createSeguimiento(@RequestBody SeguimientoSolicitudes seguimiento) {
+        SeguimientoSolicitudes savedSeguimiento = seguimientoSolicitudesService.save(seguimiento);
+        return new ResponseEntity<>(savedSeguimiento, HttpStatus.CREATED);
+    }
 }

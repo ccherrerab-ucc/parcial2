@@ -17,20 +17,15 @@ public class SeguimientoSolicitudesService {
 
     public SeguimientoSolicitudes updateStatus(Integer idGuid, Integer statusCode) throws IllegalStateException {
         // Buscar el seguimiento por su ID
-        Optional<SeguimientoSolicitudes> seguimientoOpt = seguimientoSolicitudesRepository.findById(idGuid);
+        SeguimientoSolicitudes seguimiento = seguimientoSolicitudesRepository.findById(idGuid)
+                .orElseThrow(() -> new IllegalStateException("Seguimiento no encontrado con ID: " + idGuid));
 
-        if (!seguimientoOpt.isPresent()) {
-            throw new IllegalStateException("Seguimiento no encontrado con ID: " + idGuid);
-        }
-
-        SeguimientoSolicitudes seguimiento = seguimientoOpt.get();
-
-        // Verificar si el campo validar es false, lo que significa que no se pueden hacer cambios
+        // Verificar si el campo 'vigente' es false
         if (!seguimiento.getVigente()) {
             throw new IllegalStateException("La solicitud no puede modificarse porque ha sido rechazada.");
         }
 
-        // Actualizar el estado y aplicar la lógica de negocio
+        // Actualizar el estado
         seguimiento.getStatusCode().setStatusCode(statusCode);
 
         if (statusCode == 3) { // Estado RECHAZADO
@@ -42,6 +37,7 @@ public class SeguimientoSolicitudesService {
         // Actualizar la fecha de seguimiento
         seguimiento.setCreationDate(new Date());
 
+        // Lógica adicional para actualizar 'vigente'
         if (statusCode % 2 == 0) {
             seguimiento.setVigente(false);
         }
@@ -52,4 +48,11 @@ public class SeguimientoSolicitudesService {
     public List<SeguimientoSolicitudes> getAll() {
         return seguimientoSolicitudesRepository.findAll();
     }
+
+    // Método para crear un nuevo seguimiento
+    public SeguimientoSolicitudes save(SeguimientoSolicitudes seguimiento) {
+        seguimiento.setCreationDate(new Date()); // Establecer fecha de creación
+        return seguimientoSolicitudesRepository.save(seguimiento);
+    }
 }
+
