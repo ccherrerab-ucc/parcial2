@@ -11,6 +11,6 @@ import java.util.List;
 public interface SeguimientoSolicitudesRepository extends JpaRepository<SeguimientoSolicitudes, Integer> {
 
     List<SeguimientoSolicitudes> findByVigenteTrue();
-    SeguimientoSolicitudes findByIdQuick(Integer idQuick);
+
 
 }
