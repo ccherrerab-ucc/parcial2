@@ -1,5 +1,6 @@
 package com.GRH.myapp.GRH_myapp.service;
 
+import com.GRH.myapp.GRH_myapp.SeguimientoDTO;
 import com.GRH.myapp.GRH_myapp.model.SeguimientoSolicitudes;
 import com.GRH.myapp.GRH_myapp.repository.SeguimientoSolicitudesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,8 @@ public class SeguimientoSolicitudesService {
         }
 
         // Actualizar el estado y aplicar la lógica de negocio
-        seguimiento.getStatusCode().setStatusCode(statusCode);;
+        seguimiento.getStatusCode().setStatusCode(statusCode);
+        ;
 
         if (statusCode == 0) { // Estado RECHAZADO
             seguimiento.setVigente(false);
