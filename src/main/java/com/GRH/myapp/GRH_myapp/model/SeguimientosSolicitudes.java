@@ -136,4 +136,5 @@ public class SeguimientosSolicitudes implements Serializable {
                 ", statusCode=" + (statusCode != null ? statusCode.getStatusCode() : "N/A") + // Asegúrate de que getStatusCode() devuelva el valor adecuado
                 '}';
     }
+    
 }
