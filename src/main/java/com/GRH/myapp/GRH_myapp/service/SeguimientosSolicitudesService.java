@@ -25,14 +25,14 @@ public class SeguimientosSolicitudesService {
         return seguimientosSolicitudesRepository.save(solicitud);
     }
 
-    public void deleteById(Integer id) {
+    public void deleteById(String id) {
         seguimientosSolicitudesRepository.deleteById(id);
     }
 
-    public Optional<SeguimientosSolicitudes> findById(Integer id) {
+    public Optional<SeguimientosSolicitudes> findById(String id) {
         return seguimientosSolicitudesRepository.findById(id);
     }
-    public SeguimientosSolicitudes updateRequest(Integer id, SeguimientosSolicitudes updatedSolicitud) throws Exception {
+    public SeguimientosSolicitudes updateRequest(String id, SeguimientosSolicitudes updatedSolicitud) throws Exception {
         Optional<SeguimientosSolicitudes> optionalSolicitud = seguimientosSolicitudesRepository.findById(id);
 
         if (!optionalSolicitud.isPresent()) {
@@ -65,7 +65,7 @@ public class SeguimientosSolicitudesService {
         // Guardar la nueva solicitud en la base de datos
         return seguimientosSolicitudesRepository.save(newSolicitud);
     }
-     public SeguimientosSolicitudes updateRequest_old(Integer id, SeguimientosSolicitudes updatedSolicitud) throws Exception {
+     public SeguimientosSolicitudes updateRequest_old(String id, SeguimientosSolicitudes updatedSolicitud) throws Exception {
         Optional<SeguimientosSolicitudes> optionalSolicitud = seguimientosSolicitudesRepository.findById(id);
 
         if (!optionalSolicitud.isPresent()) {
@@ -95,37 +95,7 @@ public class SeguimientosSolicitudesService {
         // Guardar los cambios en la base de datos
         return seguimientosSolicitudesRepository.save(updatedSolicitud);
     }
-    public SeguimientosSolicitudes duplicateRequestAndInvalidateOld(Integer id) throws Exception {
-        // Obtener la solicitud existente
-        Optional<SeguimientosSolicitudes> optionalSolicitud = seguimientosSolicitudesRepository.findById(id);
-
-        if (!optionalSolicitud.isPresent()) {
-            throw new Exception("Solicitud no encontrada.");
-        }
-
-        SeguimientosSolicitudes existingSolicitud = optionalSolicitud.get();
-
-        // Si la solicitud ya no es vigente, no podemos duplicarla
-        if (!existingSolicitud.getVigente()) {
-            throw new Exception("La solicitud ya no es vigente y no puede duplicarse.");
-        }
-
-        // Crear una nueva solicitud basada en la existente
-        SeguimientosSolicitudes newSolicitud = new SeguimientosSolicitudes();
-        newSolicitud.setIdRequest(existingSolicitud.getIdRequest()); // Copiar el ID del tipo de solicitud
-        newSolicitud.setStatusCode(existingSolicitud.getStatusCode()); // Copiar el estado
-        newSolicitud.setVigente(true); // La nueva solicitud debe ser vigente
-        newSolicitud.setCreationDate(new Date()); // Establecer la fecha actual para la nueva solicitud
-
-        // Guardar el nuevo registro en la base de datos
-        SeguimientosSolicitudes savedNewSolicitud = seguimientosSolicitudesRepository.save(newSolicitud);
-
-        // Marcar la solicitud existente como no vigente
-        existingSolicitud.setVigente(false);
-        seguimientosSolicitudesRepository.save(existingSolicitud); // Actualizar la solicitud original
-
-        return savedNewSolicitud; // Devolver la nueva solicitud creada
-    }
+    
 
     
     // Método para obtener todas las solicitudes ordenadas

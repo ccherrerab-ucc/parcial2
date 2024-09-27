@@ -4,11 +4,10 @@
  */
 package com.GRH.myapp.GRH_myapp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -19,6 +18,8 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
+import jakarta.persistence.PrePersist;
 
 /**
  *
@@ -29,57 +30,49 @@ import java.util.Date;
 @NamedQueries({
     @NamedQuery(name = "SeguimientosSolicitudes.findAll", query = "SELECT s FROM SeguimientosSolicitudes s"),
     @NamedQuery(name = "SeguimientosSolicitudes.findByIdGuid", query = "SELECT s FROM SeguimientosSolicitudes s WHERE s.idGuid = :idGuid"),
-    @NamedQuery(name = "SeguimientosSolicitudes.findByIdRequest", query = "SELECT s FROM SeguimientosSolicitudes s WHERE s.idRequest = :idRequest"),
     @NamedQuery(name = "SeguimientosSolicitudes.findByVigente", query = "SELECT s FROM SeguimientosSolicitudes s WHERE s.vigente = :vigente"),
     @NamedQuery(name = "SeguimientosSolicitudes.findByCreationDate", query = "SELECT s FROM SeguimientosSolicitudes s WHERE s.creationDate = :creationDate")})
 public class SeguimientosSolicitudes implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_guid")
-    private Integer idGuid;
-    @Basic(optional = false)
-    @Column(name = "id_type_request")
-    private int idRequest;
-    @Basic(optional = false)
+    private String idGuid;
     @Column(name = "vigente")
     private Boolean vigente;
     @Column(name = "creation_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
+    @JoinColumn(name = "id_request", referencedColumnName = "id")
+    @JsonBackReference
+    @ManyToOne
+    private Request idRequest;
     @JoinColumn(name = "status_code", referencedColumnName = "status_code")
-    @ManyToOne(optional = false)
+    @JsonBackReference
+    @ManyToOne
     private StatusSolicitudes statusCode;
 
     public SeguimientosSolicitudes() {
     }
 
-    public SeguimientosSolicitudes(Integer idGuid) {
+    public SeguimientosSolicitudes(String idGuid) {
         this.idGuid = idGuid;
     }
-
-    public SeguimientosSolicitudes(Integer idGuid, int idRequest, Boolean vigente) {
-        this.idGuid = idGuid;
-        this.idRequest = idRequest;
-        this.vigente = vigente;
+    
+    @PrePersist
+    public void prePersist() {
+        if (this.idGuid == null) {
+            this.idGuid = UUID.randomUUID().toString();
+        }
     }
 
-    public Integer getIdGuid() {
+    public String getIdGuid() {
         return idGuid;
     }
 
-    public void setIdGuid(Integer idGuid) {
+    public void setIdGuid(String idGuid) {
         this.idGuid = idGuid;
-    }
-
-    public int getIdRequest() {
-        return idRequest;
-    }
-
-    public void setIdRequest(int idRequest) {
-        this.idRequest = idRequest;
     }
 
     public Boolean getVigente() {
@@ -96,6 +89,14 @@ public class SeguimientosSolicitudes implements Serializable {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Request getIdRequest() {
+        return idRequest;
+    }
+
+    public void setIdRequest(Request idRequest) {
+        this.idRequest = idRequest;
     }
 
     public StatusSolicitudes getStatusCode() {
@@ -128,13 +129,7 @@ public class SeguimientosSolicitudes implements Serializable {
 
     @Override
     public String toString() {
-        return "SeguimientosSolicitudes{" +
-                "idGuid=" + idGuid +
-                ", idRequest=" + idRequest +
-                ", vigente=" + vigente +
-                ", creationDate=" + creationDate +
-                ", statusCode=" + (statusCode != null ? statusCode.getStatusCode() : "N/A") + // Asegúrate de que getStatusCode() devuelva el valor adecuado
-                '}';
+        return "com.GRH.myapp.GRH_myapp.model.SeguimientosSolicitudes[ idGuid=" + idGuid + " ]";
     }
     
 }

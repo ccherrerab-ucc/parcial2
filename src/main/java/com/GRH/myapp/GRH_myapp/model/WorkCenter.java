@@ -4,6 +4,7 @@
  */
 package com.GRH.myapp.GRH_myapp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -39,6 +40,7 @@ public class WorkCenter implements Serializable {
     @Basic(optional = false)
     @Column(name = "name_city")
     private String nameCity;
+    @JsonBackReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idWorkcenter")
     private Collection<Employees> employeesCollection;
 

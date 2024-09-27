@@ -4,6 +4,7 @@
  */
 package com.GRH.myapp.GRH_myapp.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -43,6 +44,7 @@ public class Position implements Serializable {
     @Basic(optional = false)
     @Column(name = "role_position")
     private int rolePosition;
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPosition")
     private Collection<Employees> employeesCollection;
 

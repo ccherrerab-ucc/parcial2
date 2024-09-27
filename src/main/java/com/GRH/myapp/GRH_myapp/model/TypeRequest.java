@@ -4,6 +4,7 @@
  */
 package com.GRH.myapp.GRH_myapp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -27,7 +28,8 @@ import java.util.Collection;
 @NamedQueries({
     @NamedQuery(name = "TypeRequest.findAll", query = "SELECT t FROM TypeRequest t"),
     @NamedQuery(name = "TypeRequest.findById", query = "SELECT t FROM TypeRequest t WHERE t.id = :id"),
-    @NamedQuery(name = "TypeRequest.findByNombre", query = "SELECT t FROM TypeRequest t WHERE t.nombre = :nombre")})
+    @NamedQuery(name = "TypeRequest.findByNombre", query = "SELECT t FROM TypeRequest t WHERE t.nombre = :nombre"),
+    @NamedQuery(name = "TypeRequest.findByD\u00edas", query = "SELECT t FROM TypeRequest t WHERE t.d\u00edas = :d\u00edas")})
 public class TypeRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,6 +41,9 @@ public class TypeRequest implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
+    @Column(name = "d\u00edas")
+    private Integer días;
+    @JsonBackReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipeRequest")
     private Collection<Request> requestCollection;
 
@@ -68,6 +73,14 @@ public class TypeRequest implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Integer getDías() {
+        return días;
+    }
+
+    public void setDías(Integer días) {
+        this.días = días;
     }
 
     public Collection<Request> getRequestCollection() {
@@ -101,6 +114,10 @@ public class TypeRequest implements Serializable {
     @Override
     public String toString() {
         return "com.GRH.myapp.GRH_myapp.model.TypeRequest[ id=" + id + " ]";
+    }
+
+    public int getDias() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

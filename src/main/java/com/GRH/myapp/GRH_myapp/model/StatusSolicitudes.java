@@ -4,8 +4,8 @@
  */
 package com.GRH.myapp.GRH_myapp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -36,8 +36,12 @@ public class StatusSolicitudes implements Serializable {
     @Basic(optional = false)
     @Column(name = "description")
     private String description;
-    // @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusCode")
-    // private Collection<SeguimientosSolicitudes> seguimientosSolicitudesCollection;
+    @JsonBackReference
+    @OneToMany(mappedBy = "statusCode")
+    private Collection<Request> requestCollection;
+    @JsonBackReference
+    @OneToMany(mappedBy = "statusCode")
+    private Collection<SeguimientosSolicitudes> seguimientosSolicitudesCollection;
 
     public StatusSolicitudes() {
     }
@@ -67,13 +71,21 @@ public class StatusSolicitudes implements Serializable {
         this.description = description;
     }
 
-    /*public Collection<SeguimientosSolicitudes> getSeguimientosSolicitudesCollection() {
-        return seguimientosSolicitudesCollection;
-    }*/
+    public Collection<Request> getRequestCollection() {
+        return requestCollection;
+    }
 
-    /*public void setSeguimientosSolicitudesCollection(Collection<SeguimientosSolicitudes> seguimientosSolicitudesCollection) {
+    public void setRequestCollection(Collection<Request> requestCollection) {
+        this.requestCollection = requestCollection;
+    }
+
+    public Collection<SeguimientosSolicitudes> getSeguimientosSolicitudesCollection() {
+        return seguimientosSolicitudesCollection;
+    }
+
+    public void setSeguimientosSolicitudesCollection(Collection<SeguimientosSolicitudes> seguimientosSolicitudesCollection) {
         this.seguimientosSolicitudesCollection = seguimientosSolicitudesCollection;
-    }*/
+    }
 
     @Override
     public int hashCode() {

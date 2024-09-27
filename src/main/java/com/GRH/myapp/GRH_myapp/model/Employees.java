@@ -4,10 +4,13 @@
  */
 package com.GRH.myapp.GRH_myapp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,9 +22,11 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -39,7 +44,6 @@ import java.util.Date;
     @NamedQuery(name = "Employees.findByFirstLevel", query = "SELECT e FROM Employees e WHERE e.firstLevel = :firstLevel"),
     @NamedQuery(name = "Employees.findBySecondLevel", query = "SELECT e FROM Employees e WHERE e.secondLevel = :secondLevel"),
     @NamedQuery(name = "Employees.findByEntryDate", query = "SELECT e FROM Employees e WHERE e.entryDate = :entryDate"),
-    @NamedQuery(name = "Employees.findByDelete", query = "SELECT e FROM Employees e WHERE e.delete = :delete"),
     @NamedQuery(name = "Employees.findByTurn", query = "SELECT e FROM Employees e WHERE e.turn = :turn"),
     @NamedQuery(name = "Employees.findBySchedule", query = "SELECT e FROM Employees e WHERE e.schedule = :schedule"),
     @NamedQuery(name = "Employees.findByRestDay", query = "SELECT e FROM Employees e WHERE e.restDay = :restDay")})
@@ -52,7 +56,7 @@ public class Employees implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "NIT")
+    @Column(name = "nit")
     private String nit;
     @Basic(optional = false)
     @Column(name = "name")
@@ -74,9 +78,6 @@ public class Employees implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date entryDate;
     @Basic(optional = false)
-    @Column(name = "delete")
-    private String delete;
-    @Basic(optional = false)
     @Column(name = "turn")
     private String turn;
     @Basic(optional = false)
@@ -84,26 +85,36 @@ public class Employees implements Serializable {
     private String schedule;
     @Column(name = "rest_day")
     private Integer restDay;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmployees")
-    private Collection<Request> requestCollection;
+    
+    @OneToMany(mappedBy = "employees", fetch = FetchType.EAGER) 
+    @JsonManagedReference
+    private List<Request> requestCollection;
+    @JsonManagedReference
     @OneToMany(mappedBy = "idEmploye")
     private Collection<HolydaysPe> holydaysPeCollection;
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmployees")
     private Collection<Holydays> holydaysCollection;
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmployees")
     private Collection<Payroll> payrollCollection;
+    @JsonBackReference
     @JoinColumn(name = "id_area", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Area idArea;
+    @JsonBackReference
     @JoinColumn(name = "id_departament", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Department idDepartament;
+    @JsonBackReference
     @JoinColumn(name = "id_position", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Position idPosition;
+    @JsonBackReference
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users idUser;
+    @JsonBackReference
     @JoinColumn(name = "id_workcenter", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private WorkCenter idWorkcenter;
@@ -115,7 +126,7 @@ public class Employees implements Serializable {
         this.id = id;
     }
 
-    public Employees(Integer id, String nit, String name, String firstSurname, String secondSurname, String firstLevel, String secondLevel, Date entryDate, String delete, String turn, String schedule) {
+    public Employees(Integer id, String nit, String name, String firstSurname, String secondSurname, String firstLevel, String secondLevel, Date entryDate, String turn, String schedule) {
         this.id = id;
         this.nit = nit;
         this.name = name;
@@ -124,7 +135,6 @@ public class Employees implements Serializable {
         this.firstLevel = firstLevel;
         this.secondLevel = secondLevel;
         this.entryDate = entryDate;
-        this.delete = delete;
         this.turn = turn;
         this.schedule = schedule;
     }
@@ -193,13 +203,7 @@ public class Employees implements Serializable {
         this.entryDate = entryDate;
     }
 
-    public String getDelete() {
-        return delete;
-    }
-
-    public void setDelete(String delete) {
-        this.delete = delete;
-    }
+    
 
     public String getTurn() {
         return turn;
@@ -224,15 +228,15 @@ public class Employees implements Serializable {
     public void setRestDay(Integer restDay) {
         this.restDay = restDay;
     }
-
-    public Collection<Request> getRequestCollection() {
+    @Transactional
+    public List<Request> getRequestCollection() {
         return requestCollection;
     }
 
-    public void setRequestCollection(Collection<Request> requestCollection) {
+    public void setRequestCollection(List<Request> requestCollection) {
         this.requestCollection = requestCollection;
     }
-
+/*
     public Collection<HolydaysPe> getHolydaysPeCollection() {
         return holydaysPeCollection;
     }
@@ -256,7 +260,7 @@ public class Employees implements Serializable {
     public void setPayrollCollection(Collection<Payroll> payrollCollection) {
         this.payrollCollection = payrollCollection;
     }
-
+*/
     public Area getIdArea() {
         return idArea;
     }

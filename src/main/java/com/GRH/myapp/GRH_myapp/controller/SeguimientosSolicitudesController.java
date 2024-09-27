@@ -15,7 +15,7 @@ public class SeguimientosSolicitudesController {
 
     @Autowired
     private SeguimientosSolicitudesService seguimientosSolicitudesService;
-     private SeguimientosSolicitudesRepository seguimientosSolicitudesRepository;
+    private SeguimientosSolicitudesRepository seguimientosSolicitudesRepository;
 
 
     @GetMapping
@@ -28,7 +28,7 @@ public class SeguimientosSolicitudesController {
         return seguimientosSolicitudesService.save(solicitud);
     }
     @PutMapping("/{id}")
-    public SeguimientosSolicitudes updateRequest(Integer id, SeguimientosSolicitudes updatedSolicitud) throws Exception {
+    public SeguimientosSolicitudes updateRequest(String id, SeguimientosSolicitudes updatedSolicitud) throws Exception {
         Optional<SeguimientosSolicitudes> optionalSolicitud = seguimientosSolicitudesRepository.findById(id);
 
         if (!optionalSolicitud.isPresent()) {
@@ -65,7 +65,7 @@ public class SeguimientosSolicitudesController {
     }*/
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
+    public void delete(@PathVariable String id) {
         seguimientosSolicitudesService.deleteById(id);
     }
 }

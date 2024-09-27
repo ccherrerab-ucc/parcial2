@@ -4,6 +4,7 @@
  */
 package com.GRH.myapp.GRH_myapp.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -39,6 +40,7 @@ public class Department implements Serializable {
     @Basic(optional = false)
     @Column(name = "name_department")
     private String nameDepartment;
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDepartament")
     private Collection<Employees> employeesCollection;
 
@@ -69,7 +71,7 @@ public class Department implements Serializable {
     public void setNameDepartment(String nameDepartment) {
         this.nameDepartment = nameDepartment;
     }
-
+/*
     public Collection<Employees> getEmployeesCollection() {
         return employeesCollection;
     }
@@ -77,7 +79,7 @@ public class Department implements Serializable {
     public void setEmployeesCollection(Collection<Employees> employeesCollection) {
         this.employeesCollection = employeesCollection;
     }
-
+*/
     @Override
     public int hashCode() {
         int hash = 0;

@@ -10,7 +10,8 @@ import java.util.List; // Import para List
 
 
 @Repository
-public interface SeguimientosSolicitudesRepository extends JpaRepository<SeguimientosSolicitudes, Integer> {
+public interface SeguimientosSolicitudesRepository extends JpaRepository<SeguimientosSolicitudes, String> {
+    @Override
     List<SeguimientosSolicitudes> findAll(Sort sort);
 
 }

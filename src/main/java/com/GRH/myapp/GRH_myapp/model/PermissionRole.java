@@ -4,6 +4,7 @@
  */
 package com.GRH.myapp.GRH_myapp.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -39,6 +40,7 @@ public class PermissionRole implements Serializable {
     @Basic(optional = false)
     @Column(name = "name_role")
     private String nameRole;
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRole")
     private Collection<Users> usersCollection;
 

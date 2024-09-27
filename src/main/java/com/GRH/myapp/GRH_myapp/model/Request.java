@@ -4,15 +4,17 @@
  */
 package com.GRH.myapp.GRH_myapp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
@@ -34,6 +36,7 @@ import java.util.Date;
     @NamedQuery(name = "Request.findAll", query = "SELECT r FROM Request r"),
     @NamedQuery(name = "Request.findById", query = "SELECT r FROM Request r WHERE r.id = :id"),
     @NamedQuery(name = "Request.findByDateRequest", query = "SELECT r FROM Request r WHERE r.dateRequest = :dateRequest"),
+    @NamedQuery(name = "Request.findByComment", query = "SELECT r FROM Request r WHERE r.comment = :comment"),
     @NamedQuery(name = "Request.findByDateStart", query = "SELECT r FROM Request r WHERE r.dateStart = :dateStart"),
     @NamedQuery(name = "Request.findByDateFinal", query = "SELECT r FROM Request r WHERE r.dateFinal = :dateFinal")})
 public class Request implements Serializable {
@@ -49,7 +52,6 @@ public class Request implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRequest;
     @Basic(optional = false)
-    @Lob
     @Column(name = "comment")
     private String comment;
     @Column(name = "date_start")
@@ -59,16 +61,29 @@ public class Request implements Serializable {
     @Column(name = "date_final")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateFinal;
-    @JoinColumn(name = "id_employees", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Employees idEmployees;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_employees")
+    @JsonIgnore
+    private Employees employees;
+    @JoinColumn(name = "status_code", referencedColumnName = "status_code")
+    @JsonBackReference
+    @ManyToOne
+    private StatusSolicitudes statusCode;
     @JoinColumn(name = "id_tipe_request", referencedColumnName = "id")
+    @JsonBackReference
     @ManyToOne(optional = false)
     private TypeRequest idTipeRequest;
+    @JsonBackReference
+    @OneToMany(mappedBy = "idRequest", fetch = FetchType.EAGER)
+    private Collection<SeguimientosSolicitudes> seguimientosSolicitudesCollection;
+
+    @JsonBackReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRequest")
     private Collection<ApplicationLog> applicationLogCollection;
 
-    public Request() {
+    public Request() {       
+
     }
 
     public Request(Integer id) {
@@ -123,11 +138,19 @@ public class Request implements Serializable {
     }
 
     public Employees getIdEmployees() {
-        return idEmployees;
+        return employees;
     }
 
     public void setIdEmployees(Employees idEmployees) {
-        this.idEmployees = idEmployees;
+        this.employees = idEmployees;
+    }
+
+    public StatusSolicitudes getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(StatusSolicitudes statusCode) {
+        this.statusCode = statusCode;
     }
 
     public TypeRequest getIdTipeRequest() {
@@ -136,6 +159,14 @@ public class Request implements Serializable {
 
     public void setIdTipeRequest(TypeRequest idTipeRequest) {
         this.idTipeRequest = idTipeRequest;
+    }
+
+    public Collection<SeguimientosSolicitudes> getSeguimientosSolicitudesCollection() {
+        return seguimientosSolicitudesCollection;
+    }
+
+    public void setSeguimientosSolicitudesCollection(Collection<SeguimientosSolicitudes> seguimientosSolicitudesCollection) {
+        this.seguimientosSolicitudesCollection = seguimientosSolicitudesCollection;
     }
 
     public Collection<ApplicationLog> getApplicationLogCollection() {

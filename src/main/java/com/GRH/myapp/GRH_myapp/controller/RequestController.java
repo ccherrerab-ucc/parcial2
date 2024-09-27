@@ -1,58 +1,50 @@
 package com.GRH.myapp.GRH_myapp.controller;
 
+import DTO.RequestDTO;
+import com.GRH.myapp.GRH_myapp.model.Request;
+import com.GRH.myapp.GRH_myapp.model.SeguimientosSolicitudes;
+import com.GRH.myapp.GRH_myapp.model.StatusSolicitudes;
+import com.GRH.myapp.GRH_myapp.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.GRH.myapp.GRH_myapp.model.Request;
-import com.GRH.myapp.GRH_myapp.service.RequestService;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/requests")
+@RequestMapping("/api/requests")
 public class RequestController {
 
     @Autowired
     private RequestService requestService;
-
-    // Obtener todos los requests
+    
     @GetMapping
-    public List<Request> getAllRequests() {
+    public List<RequestDTO> getAll() {
         return requestService.findAll();
     }
 
-    // Obtener un request por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Request> getRequestById(@PathVariable Integer id) {
-        Optional<Request> request = requestService.findById(id);
-        return request.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<RequestDTO> getRequestWithSeguimientos(@PathVariable Integer id) {
+        RequestDTO requestDTO = requestService.getRequestWithSeguimientos(id);
+        return ResponseEntity.ok(requestDTO);
     }
 
-    // Crear un nuevo request
     @PostMapping
-    public Request createRequest(@RequestBody Request request) {
-        return requestService.save(request);
+    public ResponseEntity<Void> createRequest(@RequestBody RequestDTO requestDTO) {
+        requestService.createRequest(requestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    // Actualizar un request existente
     @PutMapping("/{id}")
-    public ResponseEntity<Request> updateRequest(@PathVariable Integer id, @RequestBody Request request) {
-        if (!requestService.findById(id).isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-        request.setId(id);
-        Request updatedRequest = requestService.save(request);
-        return ResponseEntity.ok(updatedRequest);
+    public ResponseEntity<Void> updateRequest(@PathVariable Integer id, @RequestBody RequestDTO requestDTO) {
+        requestService.updateRequest(id, requestDTO);
+        return ResponseEntity.ok().build();
     }
-
-    // Eliminar un request por ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRequest(@PathVariable Integer id) {
-        if (!requestService.findById(id).isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-        requestService.deleteById(id);
-        return ResponseEntity.noContent().build();
+    @PostMapping("/ruta")
+    public ResponseEntity<String> manejarPost(@RequestBody RequestDTO solicitud) {
+        // Lógica para manejar la solicitud POST
+        return ResponseEntity.ok("Solicitud recibida");
     }
 }

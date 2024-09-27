@@ -4,6 +4,7 @@
  */
 package com.GRH.myapp.GRH_myapp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -50,11 +51,14 @@ public class Users implements Serializable {
     @Column(name = "status")
     private int status;
     @JoinColumn(name = "id_company", referencedColumnName = "id")
+    @JsonBackReference
     @ManyToOne(optional = false)
     private Company idCompany;
     @JoinColumn(name = "id_role", referencedColumnName = "id")
+    @JsonBackReference
     @ManyToOne(optional = false)
     private PermissionRole idRole;
+    @JsonBackReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUser")
     private Collection<Employees> employeesCollection;
 
