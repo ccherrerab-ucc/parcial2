@@ -10,7 +10,6 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -75,9 +74,8 @@ public class Request implements Serializable {
     @ManyToOne(optional = false)
     private TypeRequest idTipeRequest;
     @JsonBackReference
-    @OneToMany(mappedBy = "idRequest", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idRequest")
     private Collection<SeguimientosSolicitudes> seguimientosSolicitudesCollection;
-
     @JsonBackReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRequest")
     private Collection<ApplicationLog> applicationLogCollection;
