@@ -1,4 +1,4 @@
-package com.GRH.myapp.GRH_myapp.controller;
+/*package com.GRH.myapp.GRH_myapp.controller;
 
 import com.GRH.myapp.GRH_myapp.model.SeguimientoSolicitudes;
 import com.GRH.myapp.GRH_myapp.service.SeguimientoSolicitudesService;
@@ -42,4 +42,4 @@ public class SeguimientosSolicitudesController {
         SeguimientoSolicitudes savedSeguimiento = seguimientoSolicitudesService.save(seguimiento);
         return new ResponseEntity<>(savedSeguimiento, HttpStatus.CREATED);
     }
-}
+}*/
